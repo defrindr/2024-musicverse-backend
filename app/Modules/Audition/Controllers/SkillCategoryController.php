@@ -32,6 +32,17 @@ class SkillCategoryController extends Controller
         return ResponseHelper::successWithData($this->service->list($request->all()));
     }
 
+    public function show(int $id): JsonResponse
+    {
+        try {
+            return ResponseHelper::successWithData($this->service->getById($id));
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
     public function store(SkillCategoryStoreRequest $request): JsonResponse
     {
         try {

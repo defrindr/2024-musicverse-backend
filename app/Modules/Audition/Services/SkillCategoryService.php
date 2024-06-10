@@ -42,6 +42,15 @@ class SkillCategoryService
     }
 
     /**
+     * Mendapatkan resource by id
+     */
+    public function getById(int $id): JsonResource
+    {
+        $resource = self::has($id);
+        return new SkillCategoryListResource($resource);
+    }
+
+    /**
      * Menyimpan payload ke database
      */
     public function store(array $payload): bool
