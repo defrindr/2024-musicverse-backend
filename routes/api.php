@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExampleController;
+use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
 use App\Modules\Web\Controllers\WebConfigController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ Route::group(['prefix' => 'auth'], function () {
 
         Route::get('logout', [AuthController::class, 'logout']);
 
+        // All User
         Route::get('user', [AuthController::class, 'user']);
         Route::put('user', [AuthController::class, 'updateUser']);
         Route::put('password', [AuthController::class, 'updatePassword']);
@@ -23,6 +25,11 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('socials', [AuthController::class, 'social']);
         Route::post('socials', [AuthController::class, 'updateSocial']);
     });
+});
+
+Route::middleware('auth:sanctum')->prefix('auditions')->group(function () {
+    Route::resource('skill-category', SkillCategoryController::class)->except('update');
+    Route::post('skill-category/{id}', [SkillCategoryController::class, 'update'])->name('skill-category.update');
 });
 
 Route::group([

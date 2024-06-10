@@ -33,7 +33,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
-        return $this->responseAuthFrom($user);
+        return $this->responseAuthFrom($user, "Login sukses");
     }
 
     /**
