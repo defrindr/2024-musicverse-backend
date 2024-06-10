@@ -12,6 +12,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ROLE_ADMIN = 'ADMINISTRATOR';
+
+    const ROLE_TALENT = 'TALENT';
+
+    const ROLE_PRODUCER = 'PRODUCER';
+
+    const ROLE_REGISTER = 'REGISTER';
+
+    const TOKEN_EXPIRED_TIME = 525600;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +30,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone_number',
+        'country',
+        'role',
         'password',
     ];
 
@@ -44,5 +57,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function socialLinks()
+    {
+        return $this->hasMany(SocialLink::class);
     }
 }

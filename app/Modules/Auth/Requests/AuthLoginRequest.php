@@ -5,11 +5,11 @@ namespace App\Modules\Auth\Requests;
 use Defrindr\Crudify\Requests\FormRequest;
 
 /**
- * Auto-generated AuthStoreRequest
+ * Auto-generated AuthLoginRequest
  *
  * @author defrindr
  */
-class AuthStoreRequest extends FormRequest
+class AuthLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

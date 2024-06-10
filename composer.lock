@@ -136,7 +136,7 @@
             "dist": {
                 "type": "path",
                 "url": "../packages",
-                "reference": "27fd14acaed77ebfa259f2032407eb8a4a1fdc71"
+                "reference": "dbd50fa7ee4415ddbe867f19744460c0c4bd54c9"
             },
             "require-dev": {
                 "laravel/pint": "^1.15"

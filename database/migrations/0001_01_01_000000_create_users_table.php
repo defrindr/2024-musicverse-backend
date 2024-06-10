@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
             $table->string('country')->nullable();
-            $table->enum('role', ['ADMINISTRATOR', 'PRODUCER', 'TALENT']);
+            $table->enum('role', ['ADMINISTRATOR', 'PRODUCER', 'TALENT', 'REGISTER']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -25,11 +25,11 @@ return new class extends Migration
         });
 
         Schema::create('social_link', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->id();
             $table->foreignId('user_id')->nullable()->index();
             $table->enum('name', ['instagram', 'tiktok', 'soundcloud', 'youtube', 'website']);
             $table->string('value');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
