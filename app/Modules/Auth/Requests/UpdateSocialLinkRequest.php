@@ -24,7 +24,7 @@ class UpdateSocialLinkRequest extends FormRequest
     {
         return [
             'socials.*.name' => 'required:in:' . implode(",", SocialLink::ALLOWED_NAMES),
-            'socials.*.value' => 'required|url',
+            'socials.*.value' => 'nullable|url',
         ];
     }
 

@@ -112,6 +112,9 @@ class AuthController extends Controller
             $socialLinks = $request->get('socials') ?? [];
 
             foreach ($socialLinks as $socialLink) {
+                // check on empty value
+                if (!$socialLink['value']) continue;
+
                 $existModel = SocialLink::userAndName($user, $socialLink['name'])->first();
 
                 if ($existModel) {
