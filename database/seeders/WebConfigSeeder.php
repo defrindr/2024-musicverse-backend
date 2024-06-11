@@ -13,47 +13,28 @@ class WebConfigSeeder extends Seeder
     public function run(): void
     {
         $appTexts = [
-            ['app.text.title', 'PETOLOGI'],
-
-            ['app.text.about.title', 'About Our Pets Clinic'],
-            ['app.text.about.description', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since theLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the'],
-            ['app.text.about.button', 'Learn More'],
-
-            ['app.text.service.title', 'Our Services'],
-            ['app.text.service.button', 'Learn More'],
-
-            ['app.text.gallery.title', 'Our Gallery'],
-
-            // ['app.text.hospital.title', 'You Can Buy Pet From Our Clinic'],
-            // ['app.text.hospital.description', 'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip'],
-            // ['app.text.hospital.button', 'Buy Now'],
-
-            ['app.text.testimoni.title', 'What Say Our clients'],
-            ['app.text.testimoni.description', 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut la'],
-
-            ['app.text.contact.title', 'Contact Us'],
-            ['app.text.contact.button', 'SEND'],
-            ['app.text.contact.phone', '+6285604845437'],
-            ['app.text.contact.email', 'defrindr@gmail.com'],
-
-            ['app.text.copyright', '© 2019 All Rights Reserved By Free Html Templates'],
-        ];
-        $appColors = [
-            ['app.color.primary', '#18d3ff'],
-            ['app.color.secondary', '#023b48'],
+            ['app.text.hero', "Virtual Stage\nfor Music\nTalents"],
+            ['app.text.hero-bottom', 'More than 1000 people have joined the platform'],
+            ['app.text.discover-title', "Discover the Musicverse\nExperience"],
+            ['app.text.discover-content', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'],
+            ['app.text.gallery-title', "Get Inspired by\nMusical Talents!"],
+            ['app.text.market-title', 'Help market and distribute music'],
+            ['app.text.market-content', "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."],
+            ['app.text.faq-title', 'FAQ: Answers to Your Queries'],
+            ['app.text.login-title', "Login and Show Your\nTalent!"],
+            ['app.text.signin-title', 'We Helps You Create\nAmazing Music!'],
+            ['app.text.copyright', '© 2024 All Rights Reserved by Defri Indra Mahardika'],
         ];
         $appImages = [
-            ['app.image.logo', ''],
-            ['app.image.banner', ''],
-            ['app.image.about', ''],
-            ['app.image.service', ''],
+            ['app.image.logo', 'logo.png'],
+            ['app.image.hero', 'hero.png'],
+            ['app.image.market', 'market.png'],
+            ['app.image.login', 'login.png'],
+            ['app.image.signin', 'signin.png'],
         ];
 
         foreach ($appTexts as $item) {
             WebConfig::create(['type' => 'text', 'name' => $item[0], 'value' => $item[1]]);
-        }
-        foreach ($appColors as $item) {
-            WebConfig::create(['type' => 'color', 'name' => $item[0], 'value' => $item[1]]);
         }
         foreach ($appImages as $item) {
             WebConfig::create(['type' => 'image', 'name' => $item[0], 'value' => $item[1]]);

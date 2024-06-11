@@ -29,6 +29,11 @@ class WebConfigController extends Controller
         return ResponseHelper::successWithData($this->service->list());
     }
 
+    public function preferences()
+    {
+        return ResponseHelper::successWithData($this->service->preferences());
+    }
+
     public function update(WebConfigUpdateRequest $request): JsonResponse
     {
         try {

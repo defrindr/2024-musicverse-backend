@@ -49,8 +49,9 @@ Route::prefix('auditions')->group(function () {
     });
 });
 
+Route::get('/preferences', [WebConfigController::class, 'preferences'])->name('web-config.preferences');
 Route::group([
-    // 'middleware' => 'auth:sanctum'
+    'middleware' => 'auth:sanctum',
 ], function () {
     Route::get('/web-config', [WebConfigController::class, 'index'])->name('web-config.index');
     Route::put('/web-config', [WebConfigController::class, 'update'])->name('web-config.update');

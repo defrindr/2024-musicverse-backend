@@ -23,14 +23,35 @@ class WebConfigService
     public function list(): array
     {
         $dataTexts = WebConfig::withType('text')->get();
-        $dataColors = WebConfig::withType('color')->get();
+        // $dataColors = WebConfig::withType('color')->get();
         $dataImages = WebConfig::withType('image')->get();
 
         return [
             'texts' => WebConfigResource::collection($dataTexts),
-            'colors' => WebConfigResource::collection($dataColors),
+            // 'colors' => WebConfigResource::collection($dataColors),
             'images' => WebConfigResource::collection($dataImages),
         ];
+    }
+
+    /**
+     * Mengambil paginasi data dari resources
+     */
+    public function preferences(): array
+    {
+        $data = WebConfig::get();
+
+        $items = [];
+
+        foreach ($data as $item) {
+            if ($item->type == 'image') {
+                $items[$item->name] = asset_storage(WebConfig::FOLDER_PATH.'/'.$item->value);
+            } else {
+
+                $items[$item->name] = $item->value;
+            }
+        }
+
+        return $items;
     }
 
     /**
