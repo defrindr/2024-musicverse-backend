@@ -32,6 +32,11 @@ class SkillCategoryController extends Controller
         return ResponseHelper::successWithData($this->service->list($request->all()));
     }
 
+    public function dropdown(Request $request): JsonResponse
+    {
+        return ResponseHelper::successWithData($this->service->dropdown($request->all()));
+    }
+
     public function show(int $id): JsonResponse
     {
         try {

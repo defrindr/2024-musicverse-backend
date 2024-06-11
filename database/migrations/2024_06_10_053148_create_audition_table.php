@@ -26,14 +26,17 @@ return new class extends Migration
             $table->text('description');
             $table->string('term');
             $table->text('contract');
+            $table->enum('status', ['draft', 'registration', 'selection', 'completed']);
             $table->foreignId('created_by')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('audition_assesments', function (Blueprint $table) {
             $table->id();
             $table->string('assesment');
             $table->integer('weight');
+            $table->softDeletes();
         });
 
         Schema::create('audition_participants', function (Blueprint $table) {

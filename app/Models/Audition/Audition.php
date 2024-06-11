@@ -2,6 +2,7 @@
 
 namespace App\Models\Audition;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Defrindr\Crudify\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +16,8 @@ class Audition extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const UPLOADED_PATH = "/auditions/files/";
+
     protected $table = 'auditions';
 
     protected $fillable = [
@@ -27,7 +30,7 @@ class Audition extends Model
         'contract'
     ];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public function scopeSearch(Builder $builder, string $keyword): void
     {

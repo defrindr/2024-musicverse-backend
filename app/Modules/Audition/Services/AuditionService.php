@@ -6,7 +6,10 @@ use Defrindr\Crudify\Helpers\PaginationHelper;
 use Defrindr\Crudify\Exceptions\NotFoundHttpException;
 use Defrindr\Crudify\Resources\PaginationCollection;
 use App\Models\Audition\Audition;
+use App\Models\User;
 use App\Modules\Audition\Resources\AuditionResource;
+use Defrindr\Crudify\Exceptions\BadRequestHttpException;
+use Defrindr\Crudify\Helpers\RequestHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -27,7 +30,13 @@ class AuditionService
      */
     public function list(array $payload): JsonResource
     {
+        $user = auth()->user();
         $builder = Audition::query();
+
+        if ($user->role === User::ROLE_PRODUCER) {
+            $builder->whereCreatedBy($user->id);
+        }
+
         $pagination = $builder
             ->orderBy(
                 $this->paginator->resolveSortColumn($payload, Audition::getTableColumns()),
@@ -53,6 +62,9 @@ class AuditionService
      */
     public function store(array $payload): bool
     {
+        $this->stamp($payload);
+        $this->handleUploadFile($payload, 'term');
+        $this->handleUploadFile($payload, 'contract');
         return Audition::create($payload) ? true : false;
     }
 
@@ -63,6 +75,9 @@ class AuditionService
     {
         $resource = self::has($id);
         $payload = array_filter($payload, 'strlen');
+
+        $this->handleUploadFile($payload, 'term', false, $resource->term);
+        $this->handleUploadFile($payload, 'contract', false, $resource->contract);
 
         return $resource->update($payload) ? true : false;
     }
@@ -80,10 +95,30 @@ class AuditionService
     public function has(int $id): Audition
     {
         $resource = Audition::find($id);
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 
         return $resource;
+    }
+
+    private function stamp(&$payload)
+    {
+        $user = auth()->user();
+        $payload['created_by'] = $user->id;
+    }
+
+    private function handleUploadFile(&$payload, $name, $required = true, $oldFile = null)
+    {
+        if ($required === false) {
+            if (!isset($payload[$name]) || !$payload[$name]) {
+                unset($payload[$name]);
+                return;
+            }
+        }
+
+        $response = RequestHelper::uploadFile($payload[$name], Audition::UPLOADED_PATH, $oldFile);
+        if (!$response['success']) throw new BadRequestHttpException('Terjadi kesalahan saat mengunggah ' . $name);
+        $payload[$name] = $response['fileName'];
     }
 }

@@ -80,6 +80,35 @@ class SkillCategoryService
         return $resource->delete();
     }
 
+    public function dropdown(array $payload)
+    {
+        $selected = null;
+        if (isset($payload['selected'])) {
+            $item = SkillCategory::whereId($payload['selected'])->first();
+            $selected = [
+                'key' => $item->id,
+                'label' => $item->name,
+            ];
+        }
+        $items = [];
+        $model = SkillCategory::query();
+
+        if (isset($payload['search'])) {
+            $model->search($payload['search'] ?? '');
+        }
+
+        $model = $model->paginate(10);
+
+        foreach ($model as $item) {
+            array_push($items, [
+                'key' => $item->id,
+                'label' => $item->name,
+            ]);
+        }
+
+        return compact('selected', 'items');
+    }
+
     public function has(int $id): SkillCategory
     {
         $resource = SkillCategory::find($id);

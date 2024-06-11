@@ -30,10 +30,10 @@ class AuditionStoreRequest extends FormRequest
             'title' => 'required',
             'skill_id' => 'required',
             'date' => 'required',
-            'created_by' => 'required',
+            // 'created_by' => 'required',
             'description' => 'required',
-            'term' => 'required',
-            'contract' => 'required',
+            'term' => 'required|file|mimes:pdf',
+            'contract' => 'required|file|mimes:pdf',
         ];
     }
 }

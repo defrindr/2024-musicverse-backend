@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExampleController;
+use App\Modules\Audition\Controllers\AuditionController;
 use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
 use App\Modules\Web\Controllers\WebConfigController;
@@ -27,9 +28,15 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-Route::middleware('auth:sanctum')->prefix('auditions')->group(function () {
-    Route::resource('skill-category', SkillCategoryController::class)->except('update');
-    Route::post('skill-category/{id}', [SkillCategoryController::class, 'update'])->name('skill-category.update');
+Route::prefix('auditions')->group(function () {
+    Route::get('skill-category/dropdown', [SkillCategoryController::class, 'dropdown'])->name('skill-category.dropdown');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('skill-category', SkillCategoryController::class)->except('update');
+        Route::post('skill-category/{id}', [SkillCategoryController::class, 'update'])->name('skill-category.update');
+        Route::resource('audition', AuditionController::class)->except('update');
+        Route::post('audition/{id}', [AuditionController::class, 'update'])->name('audition.update');
+    });
 });
 
 Route::group([

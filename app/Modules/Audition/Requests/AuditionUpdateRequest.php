@@ -27,7 +27,20 @@ class AuditionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required',
+            'skill_id' => 'required',
+            'date' => 'required',
+            // 'created_by' => 'required',
+            'description' => 'required',
+            'term' => 'nullable|file|mimes:pdf',
+            'contract' => 'nullable|file|mimes:pdf',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute tidak boleh kosong'
         ];
     }
 }
