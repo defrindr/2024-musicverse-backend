@@ -5,10 +5,16 @@ use App\Modules\Audition\Controllers\AuditionAssesmentController;
 use App\Modules\Audition\Controllers\AuditionController;
 use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
+use App\Modules\Auth\Controllers\UserController;
 use App\Modules\Web\Controllers\WebConfigController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dropdown', [ExampleController::class, 'dropdown']);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('users/{role}', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/{user}/show', [UserController::class, 'show'])->name('users.show');
+});
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');

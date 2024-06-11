@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,8 +61,37 @@ class User extends Authenticatable
         ];
     }
 
+    public function scopeSearch(Builder $builder, string $keyword): void
+    {
+        $builder->where(function ($builder) use ($keyword) {
+            $builder->where('name', 'like', "%$keyword%")
+                ->orWhere('email', 'like', "%$keyword%")
+                ->orWhere('role', 'like', "%$keyword%")
+                ->orWhere('country', 'like', "%$keyword%");
+        });
+    }
+
     public function socialLinks()
     {
         return $this->hasMany(SocialLink::class);
+    }
+
+    /**
+     * Mendapatkan nama tabel
+     *
+     * @return string
+     */
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
+    public static function getTableColumns()
+    {
+        $class = with(new static);
+
+        return $class->getConnection()
+            ->getSchemaBuilder()
+            ->getColumnListing($class->getTable());
     }
 }
