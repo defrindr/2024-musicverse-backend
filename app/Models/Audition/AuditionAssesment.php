@@ -29,8 +29,8 @@ class AuditionAssesment extends Model
 
     public function scopeSearch(Builder $builder, string $keyword): void
     {
-        $builder->where(function ($builder) {
-            // $builder->where('name', 'like', "%$keyword%");
+        $builder->where(function ($builder) use ($keyword) {
+            $builder->where('assesment', 'like', "%$keyword%");
         });
     }
 
