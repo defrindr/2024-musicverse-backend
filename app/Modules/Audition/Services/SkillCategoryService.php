@@ -2,23 +2,25 @@
 
 namespace App\Modules\Audition\Services;
 
-use Defrindr\Crudify\Helpers\PaginationHelper;
-use Defrindr\Crudify\Exceptions\NotFoundHttpException;
-use Defrindr\Crudify\Resources\PaginationCollection;
 use App\Models\Audition\SkillCategory;
 use App\Modules\Audition\Resources\SkillCategoryListResource;
 use Defrindr\Crudify\Exceptions\BadRequestHttpException;
+use Defrindr\Crudify\Exceptions\NotFoundHttpException;
+use Defrindr\Crudify\Helpers\PaginationHelper;
 use Defrindr\Crudify\Helpers\RequestHelper;
+use Defrindr\Crudify\Resources\PaginationCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Kelas untuk handling bisnis proses
  * auto-generated SkillCategoryService
+ *
  * @author defrindr
  */
 class SkillCategoryService
 {
     private $paginator;
+
     public function __construct()
     {
         $this->paginator = new PaginationHelper();
@@ -47,6 +49,7 @@ class SkillCategoryService
     public function getById(int $id): JsonResource
     {
         $resource = self::has($id);
+
         return new SkillCategoryListResource($resource);
     }
 
@@ -56,6 +59,7 @@ class SkillCategoryService
     public function store(array $payload): bool
     {
         $this->handleUploadFile($payload);
+
         return SkillCategory::create($payload) ? true : false;
     }
 
@@ -67,6 +71,7 @@ class SkillCategoryService
         $resource = self::has($id);
         $payload = array_filter($payload, 'strlen');
         $this->handleUploadFile($payload, false, $resource->icon);
+
         return $resource->update($payload) ? true : false;
     }
 
@@ -112,7 +117,7 @@ class SkillCategoryService
     public function has(int $id): SkillCategory
     {
         $resource = SkillCategory::find($id);
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 
@@ -122,14 +127,17 @@ class SkillCategoryService
     private function handleUploadFile(&$payload, $required = true, $oldFile = null)
     {
         if ($required === false) {
-            if (!isset($payload['icon']) || !$payload['icon']) {
+            if (! isset($payload['icon']) || ! $payload['icon']) {
                 unset($payload['icon']);
+
                 return;
             }
         }
 
         $response = RequestHelper::uploadFile($payload['icon'], SkillCategory::UPLOADED_PATH, $oldFile);
-        if (!$response['success']) throw new BadRequestHttpException('Terjadi kesalahan saat mengunggah ikon');
+        if (! $response['success']) {
+            throw new BadRequestHttpException('Terjadi kesalahan saat mengunggah ikon');
+        }
         $payload['icon'] = $response['fileName'];
     }
 }

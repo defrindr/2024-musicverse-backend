@@ -2,22 +2,20 @@
 
 namespace App\Modules\Audition\Controllers;
 
-use Defrindr\Crudify\Helpers\PaginationHelper;
-use Defrindr\Crudify\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Modules\Audition\Requests\SkillCategoryStoreRequest;
 use App\Modules\Audition\Requests\SkillCategoryUpdateRequest;
 use App\Modules\Audition\Services\SkillCategoryService;
+use Defrindr\Crudify\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-
 /**
  * Auto-generated SkillCategoryController
+ *
  * @author defrindr
  */
-
 class SkillCategoryController extends Controller
 {
     protected SkillCategoryService $service;

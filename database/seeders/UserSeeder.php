@@ -49,12 +49,12 @@ class UserSeeder extends Seeder
         SocialLink::create([
             'user_id' => 3,
             'name' => 'instagram',
-            'value' => 'defrindr'
+            'value' => 'defrindr',
         ]);
         SocialLink::create([
             'user_id' => 3,
             'name' => 'tiktok',
-            'value' => 'defrindr'
+            'value' => 'defrindr',
         ]);
     }
 }

@@ -17,7 +17,8 @@ class SkillCategoryListResource extends JsonResource
     {
         $parent = parent::toArray($request);
 
-        $parent['icon'] = asset("storage/" . SkillCategory::UPLOADED_PATH . $parent['icon']);
+        $parent['icon'] = asset('storage/'.SkillCategory::UPLOADED_PATH.$parent['icon']);
+
         return $parent;
     }
 }

@@ -2,21 +2,23 @@
 
 namespace App\Modules\Audition\Services;
 
-use Defrindr\Crudify\Helpers\PaginationHelper;
-use Defrindr\Crudify\Exceptions\NotFoundHttpException;
-use Defrindr\Crudify\Resources\PaginationCollection;
 use App\Models\Audition\AuditionAssesment;
 use App\Modules\Audition\Resources\AuditionAssesmentResource;
+use Defrindr\Crudify\Exceptions\NotFoundHttpException;
+use Defrindr\Crudify\Helpers\PaginationHelper;
+use Defrindr\Crudify\Resources\PaginationCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Kelas untuk handling bisnis proses
  * auto-generated AuditionAssesmentService
+ *
  * @author defrindr
  */
 class AuditionAssesmentService
 {
     private $paginator;
+
     public function __construct()
     {
         $this->paginator = new PaginationHelper();
@@ -25,7 +27,7 @@ class AuditionAssesmentService
     /**
      * Mengambil paginasi data dari resources
      */
-    public function list(array $payload, int $auditionId = null): JsonResource
+    public function list(array $payload, ?int $auditionId = null): JsonResource
     {
         $builder = AuditionAssesment::query();
 
@@ -50,6 +52,7 @@ class AuditionAssesmentService
     public function getById(int $auditionId, int $id): JsonResource
     {
         $resource = self::has($auditionId, $id);
+
         return new AuditionAssesmentResource($resource);
     }
 
@@ -59,6 +62,7 @@ class AuditionAssesmentService
     public function store(int $auditionId, array $payload): bool
     {
         $payload['audition_id'] = $auditionId;
+
         return AuditionAssesment::create($payload) ? true : false;
     }
 
@@ -87,7 +91,7 @@ class AuditionAssesmentService
     public function has(int $auditionId, int $id): AuditionAssesment
     {
         $resource = AuditionAssesment::whereId($id)->whereAuditionId($auditionId)->first();
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 

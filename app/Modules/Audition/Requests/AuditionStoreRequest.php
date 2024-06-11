@@ -4,9 +4,9 @@ namespace App\Modules\Audition\Requests;
 
 use Defrindr\Crudify\Requests\FormRequest;
 
-
 /**
  * Auto-generated AuditionStoreRequest
+ *
  * @author defrindr
  */
 class AuditionStoreRequest extends FormRequest

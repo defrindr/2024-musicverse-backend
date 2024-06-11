@@ -4,9 +4,9 @@ namespace App\Modules\Audition\Requests;
 
 use Defrindr\Crudify\Requests\FormRequest;
 
-
 /**
  * Auto-generated AuditionAssesmentUpdateRequest
+ *
  * @author defrindr
  */
 class AuditionAssesmentUpdateRequest extends FormRequest
@@ -28,7 +28,7 @@ class AuditionAssesmentUpdateRequest extends FormRequest
     {
         return [
             'assesment' => 'required',
-            'weight' => 'required|numeric|min:0|max:100'
+            'weight' => 'required|numeric|min:0|max:100',
         ];
     }
 }

@@ -4,9 +4,9 @@ namespace App\Modules\Audition\Requests;
 
 use Defrindr\Crudify\Requests\FormRequest;
 
-
 /**
  * Auto-generated AuditionUpdateRequest
+ *
  * @author defrindr
  */
 class AuditionUpdateRequest extends FormRequest
@@ -40,7 +40,7 @@ class AuditionUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => ':attribute tidak boleh kosong'
+            'required' => ':attribute tidak boleh kosong',
         ];
     }
 }

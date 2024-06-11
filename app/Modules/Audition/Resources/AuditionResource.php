@@ -18,10 +18,10 @@ class AuditionResource extends JsonResource
     {
         $parent = parent::toArray($request);
 
-        $parent['term'] = asset("storage/" . Audition::UPLOADED_PATH . $parent['term']);
-        $parent['contract'] = asset("storage/" . Audition::UPLOADED_PATH . $parent['contract']);
+        $parent['term'] = asset('storage/'.Audition::UPLOADED_PATH.$parent['term']);
+        $parent['contract'] = asset('storage/'.Audition::UPLOADED_PATH.$parent['contract']);
         $parent['skill'] = new SkillCategoryListResource(SkillCategory::whereId($this->skill_id)->first());
-        $parent['date'] = date("d F Y H:i", strtotime($this->date));
+        $parent['date'] = date('d F Y H:i', strtotime($this->date));
         $parent['_date'] = $this->date;
 
         return $parent;

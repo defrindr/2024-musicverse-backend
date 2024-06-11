@@ -23,7 +23,7 @@ class UpdateSocialLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'socials.*.name' => 'required:in:' . implode(",", SocialLink::ALLOWED_NAMES),
+            'socials.*.name' => 'required:in:'.implode(',', SocialLink::ALLOWED_NAMES),
             'socials.*.value' => 'nullable|url',
         ];
     }
@@ -34,8 +34,9 @@ class UpdateSocialLinkRequest extends FormRequest
         $socials = request()->get('socials');
 
         foreach ($socials as $index => $social) {
-            $messages["socials.$index.value.url"] = ucwords($social['name']) . ' harus berupa url yang valid';
+            $messages["socials.$index.value.url"] = ucwords($social['name']).' harus berupa url yang valid';
         }
+
         return $messages;
     }
 }

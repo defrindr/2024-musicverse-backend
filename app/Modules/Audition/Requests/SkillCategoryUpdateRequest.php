@@ -4,9 +4,9 @@ namespace App\Modules\Audition\Requests;
 
 use Defrindr\Crudify\Requests\FormRequest;
 
-
 /**
  * Auto-generated SkillCategoryUpdateRequest
+ *
  * @author defrindr
  */
 class SkillCategoryUpdateRequest extends FormRequest
@@ -28,7 +28,7 @@ class SkillCategoryUpdateRequest extends FormRequest
     {
         $rules = [
             'icon' => 'file|mimes:png,gif,pjg,jpeg,webp',
-            'name' => 'required|unique:skill_categories,name,' . request()->id,
+            'name' => 'required|unique:skill_categories,name,'.request()->id,
         ];
 
         return $rules;

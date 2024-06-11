@@ -13,10 +13,11 @@ class SocialLink extends Model
     const ALLOWED_NAMES = ['instagram', 'tiktok', 'soundcloud', 'youtube', 'website'];
 
     protected $table = 'social_link';
+
     protected $fillable = [
         'user_id',
         'name',
-        'value'
+        'value',
     ];
 
     public function scopeUserAndName(Builder $query, User $user, string $name)

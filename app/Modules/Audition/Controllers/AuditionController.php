@@ -2,27 +2,26 @@
 
 namespace App\Modules\Audition\Controllers;
 
-use Defrindr\Crudify\Helpers\PaginationHelper;
-use Defrindr\Crudify\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Modules\Audition\Requests\AuditionStoreRequest;
 use App\Modules\Audition\Requests\AuditionUpdateRequest;
 use App\Modules\Audition\Services\AuditionService;
+use Defrindr\Crudify\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-
 /**
  * Auto-generated AuditionController
+ *
  * @author defrindr
  */
-
 class AuditionController extends Controller
 {
     protected AuditionService $service;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->service = new AuditionService();
     }
 

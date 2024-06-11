@@ -6,7 +6,6 @@ use App\Models\Audition\Audition;
 use App\Models\Audition\AuditionAssesment;
 use App\Models\Audition\SkillCategory;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SkillCategorySeeder extends Seeder
@@ -28,7 +27,7 @@ class SkillCategorySeeder extends Seeder
             'contract' => 'contract.pdf',
             'created_by' => User::whereRole(User::ROLE_PRODUCER)->first()->id,
             'date' => date('Y-m-d H:i:s'),
-            "description" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ducimus odio natus porro molestiae at doloribus, consectetur voluptatibus reprehenderit, earum tempore alias maxime? Tenetur excepturi obcaecati, assumenda laborum error doloremque."
+            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ducimus odio natus porro molestiae at doloribus, consectetur voluptatibus reprehenderit, earum tempore alias maxime? Tenetur excepturi obcaecati, assumenda laborum error doloremque.',
         ]);
 
         AuditionAssesment::create([

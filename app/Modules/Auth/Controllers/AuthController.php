@@ -5,10 +5,10 @@ namespace App\Modules\Auth\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\SocialLink;
 use App\Models\User;
-use App\Modules\Auth\Requests\UpdateProfileRequest;
 use App\Modules\Auth\Requests\AuthLoginRequest;
 use App\Modules\Auth\Requests\AuthRegisterRequest;
 use App\Modules\Auth\Requests\UpdatePasswordRequest;
+use App\Modules\Auth\Requests\UpdateProfileRequest;
 use App\Modules\Auth\Requests\UpdateSocialLinkRequest;
 use Defrindr\Crudify\Exceptions\BadRequestHttpException;
 use Defrindr\Crudify\Helpers\ResponseHelper;
@@ -28,12 +28,13 @@ class AuthController extends Controller
     public function login(AuthLoginRequest $request)
     {
         $credentials = request()->only(['email', 'password']);
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             throw new BadRequestHttpException('Authentikasi tidak valid');
         }
 
         $user = $request->user();
-        return $this->responseAuthFrom($user, "Login sukses");
+
+        return $this->responseAuthFrom($user, 'Login sukses');
     }
 
     /**
@@ -44,7 +45,7 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return ResponseHelper::successWithData([
-            "user" => $request->user()
+            'user' => $request->user(),
         ]);
     }
 
@@ -60,11 +61,11 @@ class AuthController extends Controller
         $user = $request->user();
         if ($user->update($payload)) {
             return ResponseHelper::successWithData([
-                "user" => $request->user()
-            ], "Berhasil mengubah profile");
+                'user' => $request->user(),
+            ], 'Berhasil mengubah profile');
         }
 
-        return ResponseHelper::badRequest("Gagal mengubah profile");
+        return ResponseHelper::badRequest('Gagal mengubah profile');
     }
 
     /**
@@ -77,7 +78,7 @@ class AuthController extends Controller
         $password = $request->get('newPassword');
         $user = $request->user();
 
-        if (!Hash::check($request->get('oldPassword'), $user->password)) {
+        if (! Hash::check($request->get('oldPassword'), $user->password)) {
             return ResponseHelper::badRequest('Your old password wrong');
         }
 
@@ -89,11 +90,11 @@ class AuthController extends Controller
         $payload = compact('password');
         if ($user->update($payload)) {
             return ResponseHelper::successWithData([
-                "user" => $request->user()
-            ], "Berhasil mengubah password");
+                'user' => $request->user(),
+            ], 'Berhasil mengubah password');
         }
 
-        return ResponseHelper::badRequest("Gagal mengubah password");
+        return ResponseHelper::badRequest('Gagal mengubah password');
     }
 
     public function social()
@@ -113,7 +114,9 @@ class AuthController extends Controller
 
             foreach ($socialLinks as $socialLink) {
                 // check on empty value
-                if (!$socialLink['value']) continue;
+                if (! $socialLink['value']) {
+                    continue;
+                }
 
                 $existModel = SocialLink::userAndName($user, $socialLink['name'])->first();
 
@@ -125,9 +128,11 @@ class AuthController extends Controller
                 }
             }
             DB::commit();
-            return ResponseHelper::successWithData($this->getSocial($user), "Informasi sosial media berhasil di update");
+
+            return ResponseHelper::successWithData($this->getSocial($user), 'Informasi sosial media berhasil di update');
         } catch (\Throwable $th) {
             DB::rollBack();
+
             return ResponseHelper::conflict($th->getMessage());
         }
     }
@@ -150,7 +155,9 @@ class AuthController extends Controller
         $payload['role'] = User::ROLE_REGISTER;
         try {
             $exist = User::where('email', $payload['email'])->first();
-            if ($exist) return ResponseHelper::badRequest('Email telah digunakan');
+            if ($exist) {
+                return ResponseHelper::badRequest('Email telah digunakan');
+            }
             $user = User::create($payload);
             if ($user) {
                 return $this->responseAuthFrom($user, 'Berhasil membuat akun');
@@ -164,19 +171,23 @@ class AuthController extends Controller
 
     public function confirmRole(Request $request)
     {
-        $request->validate(['role' => 'required|in:' . User::ROLE_TALENT . ',' . User::ROLE_PRODUCER]);
+        $request->validate(['role' => 'required|in:'.User::ROLE_TALENT.','.User::ROLE_PRODUCER]);
 
         $user = request()->user();
-        if ($user->role != User::ROLE_REGISTER) return ResponseHelper::badRequest('Profile telah diatur, tidak dapat melakukan perubahan.');
+        if ($user->role != User::ROLE_REGISTER) {
+            return ResponseHelper::badRequest('Profile telah diatur, tidak dapat melakukan perubahan.');
+        }
         $success = $user->update(['role' => $request->get('role')]);
         if ($success) {
             $redirectUrl = $this->getRedirectUrl($user);
+
             return ResponseHelper::successWithData(compact('redirectUrl', 'user'), 'Berhasil menyimpan data');
         }
+
         return ResponseHelper::badRequest('Profile gagal di simpan');
     }
 
-    private function responseAuthFrom($user, $message = "")
+    private function responseAuthFrom($user, $message = '')
     {
         $token = $this->createAccessToken($user);
         $redirectUrl = $this->getRedirectUrl($user);
@@ -194,6 +205,7 @@ class AuthController extends Controller
     private function createAccessToken($user): string
     {
         $tokenResult = $user->createToken('Personal Access Token');
+
         return $tokenResult->plainTextToken;
     }
 
@@ -202,15 +214,15 @@ class AuthController extends Controller
 
         if ($user->role == User::ROLE_ADMIN) {
             $redirectUrl = '/admin/dashboard';
-        } else if ($user->role == User::ROLE_PRODUCER) {
+        } elseif ($user->role == User::ROLE_PRODUCER) {
             $redirectUrl = '/producer/dashboard';
-        } else if ($user->role == User::ROLE_TALENT) {
+        } elseif ($user->role == User::ROLE_TALENT) {
             $redirectUrl = '/talent/dashboard';
-        } else if ($user->role == User::ROLE_REGISTER) {
+        } elseif ($user->role == User::ROLE_REGISTER) {
             $redirectUrl = '/auth/user-type';
         }
 
-        return $redirectUrl ?? "";
+        return $redirectUrl ?? '';
     }
 
     private function getSocial(User $user)

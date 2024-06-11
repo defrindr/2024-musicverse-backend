@@ -11,12 +11,13 @@ class SkillCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const UPLOADED_PATH = "auditions/skill/";
+    const UPLOADED_PATH = 'auditions/skill/';
 
-    protected $table = "skill_categories";
+    protected $table = 'skill_categories';
+
     protected $fillable = [
         'name',
-        'icon'
+        'icon',
     ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
