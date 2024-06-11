@@ -2,36 +2,29 @@
 
 namespace App\Models\Audition;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Defrindr\Crudify\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Auto-generated Model Audition
+ * Auto-generated Model AuditionAssesment
  * @author defrindr
  */
-class Audition extends Model
+class AuditionAssesment extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const UPLOADED_PATH = "/auditions/files/";
-
-    protected $table = 'auditions';
+    protected $table = 'audition_assesments';
 
     protected $fillable = [
-        'title',
-        'skill_id',
-        'date',
-        'created_by',
-        'description',
-        'term',
-        'contract'
+        'audition_id',
+        'assesment',
+        'weight'
     ];
 
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function scopeSearch(Builder $builder, string $keyword): void
     {
@@ -40,8 +33,8 @@ class Audition extends Model
         });
     }
 
-    public function assesments(): HasMany
+    public function audition(): BelongsTo
     {
-        return $this->hasMany(AuditionAssesment::class);
+        return $this->belongsTo(Audition::class);
     }
 }

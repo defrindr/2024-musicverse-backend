@@ -34,8 +34,10 @@ return new class extends Migration
 
         Schema::create('audition_assesments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('audition_id')->references('id')->on('auditions');
             $table->string('assesment');
             $table->integer('weight');
+            $table->timestamps();
             $table->softDeletes();
         });
 
@@ -46,6 +48,8 @@ return new class extends Migration
             $table->enum('status', ['registration', 'auditions', 'contract']);
             $table->integer('total_point')->default(0);
             $table->integer('rank')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('audition_participant_points', function (Blueprint $table) {
@@ -53,6 +57,8 @@ return new class extends Migration
             $table->foreignId('audition_participant_id')->references('id')->on('audition_participants');
             $table->foreignId('assesment_point_id')->references('id')->on('audition_assesments');
             $table->integer('point');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

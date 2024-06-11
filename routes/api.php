@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExampleController;
+use App\Modules\Audition\Controllers\AuditionAssesmentController;
 use App\Modules\Audition\Controllers\AuditionController;
 use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
@@ -32,10 +33,13 @@ Route::prefix('auditions')->group(function () {
     Route::get('skill-category/dropdown', [SkillCategoryController::class, 'dropdown'])->name('skill-category.dropdown');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('skill-category', SkillCategoryController::class)->except('update');
+        Route::resource('skill-category', SkillCategoryController::class)->except('create', 'edit', 'update');
         Route::post('skill-category/{id}', [SkillCategoryController::class, 'update'])->name('skill-category.update');
-        Route::resource('audition', AuditionController::class)->except('update');
+
+        Route::resource('audition', AuditionController::class)->except('create', 'edit', 'update');
         Route::post('audition/{id}', [AuditionController::class, 'update'])->name('audition.update');
+
+        Route::resource('audition.assesment', AuditionAssesmentController::class)->except('create', 'edit');
     });
 });
 
