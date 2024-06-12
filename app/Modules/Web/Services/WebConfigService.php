@@ -94,14 +94,16 @@ class WebConfigService
         DB::beginTransaction();
 
         $success = true;
-        foreach ($payload['image'] as $file) {
-            $resource = WebConfig::where('name', $file['name'])
-                ->where('type', 'image')
-                ->first();
-            if ($resource && isset($file['value'])) {
-                $uploaded = RequestHelper::uploadImage($file['value'], WebConfig::FOLDER_PATH);
-                if ($uploaded['success']) {
-                    $success &= $resource->update(['value' => $uploaded['fileName']]);
+        if (isset($payload['image'])) {
+            foreach ($payload['image'] as $file) {
+                $resource = WebConfig::where('name', $file['name'])
+                    ->where('type', 'image')
+                    ->first();
+                if ($resource && isset($file['value'])) {
+                    $uploaded = RequestHelper::uploadFile($file['value'], WebConfig::FOLDER_PATH);
+                    if ($uploaded['success']) {
+                        $success &= $resource->update(['value' => $uploaded['fileName']]);
+                    }
                 }
             }
         }
