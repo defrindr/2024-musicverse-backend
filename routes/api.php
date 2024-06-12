@@ -52,11 +52,11 @@ Route::prefix('auditions')->group(function () {
 Route::get('/preferences', [WebConfigController::class, 'preferences'])->name('web-config.preferences');
 Route::group([
     'middleware' => 'auth:sanctum',
+    'prefix' => 'cms',
+    'as' => 'cms.'
 ], function () {
-    Route::get('/web-config', [WebConfigController::class, 'index'])->name('web-config.index');
-    Route::put('/web-config', [WebConfigController::class, 'update'])->name('web-config.update');
-    Route::post('/web-config/image', [WebConfigController::class, 'updateImage'])->name('web-config.update-image');
+    Route::get('/config', [WebConfigController::class, 'index'])->name('config.index');
+    Route::put('/config', [WebConfigController::class, 'update'])->name('config.update');
+    Route::post('/config/image', [WebConfigController::class, 'updateImage'])->name('config.update-image');
 
-    // Route::resource('/animal-type', AnimalTypeController::class);
-    // Route::resource('/drug', DrugController::class);
 });
