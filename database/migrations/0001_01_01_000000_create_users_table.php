@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
-            $table->string('country')->nullable();
+            $table->foreignId('country')->nullable()->references('id')->on('countries');
             $table->enum('role', ['ADMINISTRATOR', 'PRODUCER', 'TALENT', 'REGISTER']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(MasterSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(WebConfigSeeder::class);
         $this->call(WebFaqSeeder::class);

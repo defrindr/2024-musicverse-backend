@@ -6,6 +6,9 @@ use App\Modules\Audition\Controllers\AuditionController;
 use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
 use App\Modules\Auth\Controllers\UserController;
+use App\Modules\Master\Controllers\CountryController;
+use App\Modules\Master\Controllers\GenreController;
+use App\Modules\Master\Controllers\LanguageController;
 use App\Modules\Web\Controllers\WebConfigController;
 use App\Modules\Web\Controllers\WebFaqController;
 use Illuminate\Support\Facades\Route;
@@ -61,5 +64,13 @@ Route::group([
     Route::post('/config/image', [WebConfigController::class, 'updateImage'])->name('config.update-image');
 
     Route::resource('faq', WebFaqController::class)->except('create', 'edit');
-
+});
+Route::group([
+    'middleware' => 'auth:sanctum',
+    'prefix' => 'master',
+    'as' => 'master.',
+], function () {
+    Route::resource('language', LanguageController::class)->except('create', 'edit');
+    Route::resource('genre', GenreController::class)->except('create', 'edit');
+    Route::resource('country', CountryController::class)->except('create', 'edit');
 });
