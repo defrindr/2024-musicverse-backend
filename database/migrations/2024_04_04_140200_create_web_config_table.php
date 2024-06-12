@@ -19,37 +19,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('web_banners', function (Blueprint $table) {
+        Schema::create('web_faqs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('subtitle');
-            $table->string('description');
-            $table->string('image');
+            $table->string('question');
+            $table->text('answer');
             $table->timestamps();
-        });
-
-        Schema::create('web_services', function (Blueprint $table) {
-            $table->id();
-            $table->string('icon');
-            $table->string('title');
-            $table->string('description');
-            $table->timestamps();
-        });
-
-        Schema::create('web_testimonials', function (Blueprint $table) {
-            $table->id();
-            $table->string('image');
-            $table->string('name');
-            $table->string('content');
-            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('web_galleries', function (Blueprint $table) {
             $table->id();
-            $table->integer('width')->comment('in percent');
+            $table->string('href');
             $table->string('image');
             $table->string('alt');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

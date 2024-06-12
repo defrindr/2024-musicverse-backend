@@ -3,6 +3,7 @@
 namespace App\Modules\Web\Services;
 
 use App\Models\Web\WebConfig;
+use App\Models\Web\WebFaq;
 use App\Modules\Web\Resources\WebConfigResource;
 use Defrindr\Crudify\Exceptions\NotFoundHttpException;
 use Defrindr\Crudify\Helpers\RequestHelper;
@@ -50,6 +51,8 @@ class WebConfigService
                 $items[$item->name] = $item->value;
             }
         }
+
+        $items['faqs'] = WebFaq::get();
 
         return $items;
     }

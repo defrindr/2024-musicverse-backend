@@ -7,6 +7,7 @@ use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
 use App\Modules\Auth\Controllers\UserController;
 use App\Modules\Web\Controllers\WebConfigController;
+use App\Modules\Web\Controllers\WebFaqController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dropdown', [ExampleController::class, 'dropdown']);
@@ -53,10 +54,12 @@ Route::get('/preferences', [WebConfigController::class, 'preferences'])->name('w
 Route::group([
     'middleware' => 'auth:sanctum',
     'prefix' => 'cms',
-    'as' => 'cms.'
+    'as' => 'cms.',
 ], function () {
     Route::get('/config', [WebConfigController::class, 'index'])->name('config.index');
     Route::put('/config', [WebConfigController::class, 'update'])->name('config.update');
     Route::post('/config/image', [WebConfigController::class, 'updateImage'])->name('config.update-image');
+
+    Route::resource('faq', WebFaqController::class)->except('create', 'edit');
 
 });
