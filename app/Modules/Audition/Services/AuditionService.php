@@ -3,6 +3,7 @@
 namespace App\Modules\Audition\Services;
 
 use App\Models\Audition\Audition;
+use App\Models\Audition\AuditionParticipant;
 use App\Models\User;
 use App\Modules\Audition\Resources\AuditionResource;
 use Defrindr\Crudify\Exceptions\BadRequestHttpException;
@@ -127,5 +128,41 @@ class AuditionService
             throw new BadRequestHttpException('Terjadi kesalahan saat mengunggah '.$name);
         }
         $payload[$name] = $response['fileName'];
+    }
+
+    public function apply(int $idAudition, User $user)
+    {
+        self::has($idAudition);
+
+        $payload = ['participant_id' => $user->id, 'audition_id' => $idAudition];
+
+        if (AuditionParticipant::where($payload)->exists()) {
+            throw new BadRequestHttpException('Data partisipan telah terdaftar pada audisi ini');
+        }
+
+        $participant = AuditionParticipant::create(array_merge($payload, ['status' => AuditionParticipant::STATUS_REGISTER]));
+
+        if ($participant) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getApply(User $user, array $payload)
+    {
+        $user = auth()->user();
+        $subQuery = AuditionParticipant::where('participant_id', $user->id)->select('audition_id');
+        $builder = Audition::where('id', $subQuery);
+
+        $pagination = $builder
+            ->orderBy(
+                $this->paginator->resolveSortColumn($payload, Audition::getTableColumns()),
+                $this->paginator->resolveSortDirection($payload)
+            )
+            ->search($this->paginator->resolveGlobalSearch($payload))
+            ->paginate($this->paginator->resolveLimit($payload));
+
+        return new PaginationCollection($pagination, AuditionResource::class);
     }
 }

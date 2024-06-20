@@ -30,6 +30,13 @@ class AuditionController extends Controller
         return ResponseHelper::successWithData($this->service->list($request->all()));
     }
 
+    public function getApply(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+
+        return ResponseHelper::successWithData($this->service->getApply($user, $request->all()));
+    }
+
     public function show(int $id): JsonResponse
     {
         try {
@@ -84,6 +91,24 @@ class AuditionController extends Controller
                 return ResponseHelper::successWithData(null, 'Resource berhasil dihapus');
             } else {
                 return ResponseHelper::badRequest('Resource gagal dihapus');
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
+    public function apply(int $id): JsonResponse
+    {
+        $user = auth()->user();
+        try {
+            $success = $this->service->apply($id, $user);
+
+            if ($success) {
+                return ResponseHelper::successWithData(null, 'Berhasil mendaftar sebagai peserta audisi', 201);
+            } else {
+                return ResponseHelper::badRequest('Gagal melakukan pendaftaran sebagai peserta audisi');
             }
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

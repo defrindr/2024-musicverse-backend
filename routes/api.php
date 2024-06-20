@@ -46,8 +46,10 @@ Route::prefix('auditions')->group(function () {
         Route::resource('skill-category', SkillCategoryController::class)->except('create', 'edit', 'update');
         Route::post('skill-category/{id}', [SkillCategoryController::class, 'update'])->name('skill-category.update');
 
+        Route::get('audition/apply', [AuditionController::class, 'getApply'])->name('audition.get-apply');
         Route::resource('audition', AuditionController::class)->except('create', 'edit', 'update');
         Route::post('audition/{id}', [AuditionController::class, 'update'])->name('audition.update');
+        Route::post('audition/{id}/apply', [AuditionController::class, 'apply'])->name('audition.apply');
 
         Route::resource('audition.assesment', AuditionAssesmentController::class)->except('create', 'edit');
     });
