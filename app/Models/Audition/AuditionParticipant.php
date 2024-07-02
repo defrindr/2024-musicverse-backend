@@ -32,6 +32,7 @@ class AuditionParticipant extends Model
         'status',
         'total_point',
         'rank',
+        'room',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

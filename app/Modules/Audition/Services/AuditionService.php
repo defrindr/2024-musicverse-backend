@@ -130,25 +130,6 @@ class AuditionService
         $payload[$name] = $response['fileName'];
     }
 
-    public function apply(int $idAudition, User $user)
-    {
-        self::has($idAudition);
-
-        $payload = ['participant_id' => $user->id, 'audition_id' => $idAudition];
-
-        if (AuditionParticipant::where($payload)->exists()) {
-            throw new BadRequestHttpException('Data partisipan telah terdaftar pada audisi ini');
-        }
-
-        $participant = AuditionParticipant::create(array_merge($payload, ['status' => AuditionParticipant::STATUS_REGISTER]));
-
-        if ($participant) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getApply(User $user, array $payload)
     {
         $user = auth()->user();
