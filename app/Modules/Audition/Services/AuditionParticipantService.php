@@ -66,7 +66,7 @@ class AuditionParticipantService
     public function has(int $id): AuditionParticipant
     {
         $resource = AuditionParticipant::find($id);
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 
@@ -75,13 +75,11 @@ class AuditionParticipantService
 
     public function apply(int $idAudition, User $user): string
     {
-        self::has($idAudition);
-
         $payload = ['participant_id' => $user->id, 'audition_id' => $idAudition];
 
         if (AuditionParticipant::where($payload)->exists()) {
             $participant = AuditionParticipant::where(array_merge($payload, ['status' => AuditionParticipant::STATUS_REGISTER]))->first();
-            if (! $participant) {
+            if (!$participant) {
                 throw new BadRequestHttpException('Data partisipan telah terdaftar pada audisi ini');
             }
             $participant->delete();
@@ -115,7 +113,7 @@ class AuditionParticipantService
         $randomRoomKey = \Illuminate\Support\Str::random(32);
         $participant = AuditionParticipant::where(['audition_id' => $id, 'id' => $participantId])->first();
 
-        if (! $participant) {
+        if (!$participant) {
             throw new BadRequestHttpException(('Participant tidak dapat ditemukan'));
         }
         $participant->update(['room' => $randomRoomKey, 'status' => AuditionParticipant::STATUS_AUDITION]);
