@@ -134,7 +134,7 @@ class AuditionService
     {
         $user = auth()->user();
         $subQuery = AuditionParticipant::where('participant_id', $user->id)->select('audition_id');
-        $builder = Audition::where('id', $subQuery);
+        $builder = Audition::whereIn('id', $subQuery);
 
         $pagination = $builder
             ->orderBy(
