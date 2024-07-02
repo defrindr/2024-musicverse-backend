@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExampleController;
 use App\Modules\Audition\Controllers\AuditionAssesmentController;
 use App\Modules\Audition\Controllers\AuditionController;
+use App\Modules\Audition\Controllers\AuditionParticipantController;
 use App\Modules\Audition\Controllers\SkillCategoryController;
 use App\Modules\Auth\Controllers\AuthController;
 use App\Modules\Auth\Controllers\UserController;
@@ -49,8 +50,10 @@ Route::prefix('auditions')->group(function () {
         Route::get('audition/apply', [AuditionController::class, 'getApply'])->name('audition.get-apply');
         Route::resource('audition', AuditionController::class)->except('create', 'edit', 'update');
         Route::post('audition/{id}', [AuditionController::class, 'update'])->name('audition.update');
-        Route::post('audition/{id}/apply', [AuditionController::class, 'apply'])->name('audition.apply');
-
+        Route::post('audition/{id}/participant/{participantId}/set-room', [AuditionParticipantController::class, 'setRoom'])->name('audition.setroom');
+        Route::post('audition/{id}/participant/registered', [AuditionParticipantController::class, 'registered'])->name('audition.registered');
+        Route::post('audition/{id}/participant/apply', [AuditionParticipantController::class, 'apply'])->name('audition.apply');
+        Route::resource('audition.participant', AuditionParticipantController::class)->except('create', 'edit');
         Route::resource('audition.assesment', AuditionAssesmentController::class)->except('create', 'edit');
     });
 });

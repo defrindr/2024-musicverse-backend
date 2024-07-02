@@ -46,6 +46,7 @@ return new class extends Migration
             $table->foreignId('audition_id')->references('id')->on('auditions');
             $table->foreignId('participant_id')->references('id')->on('users');
             $table->enum('status', ['registration', 'auditions', 'contract']);
+            $table->string('room')->nullable()->default(null);
             $table->integer('total_point')->default(0);
             $table->integer('rank')->nullable();
             $table->timestamps();
